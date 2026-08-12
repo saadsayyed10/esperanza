@@ -21,3 +21,23 @@ export const registerUserController = async (req: Request, res: Response) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
+export const loginUserController = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  const data = { email, password };
+  if (!data) {
+    return res.status(400).json({ error: "Required fields are missing" });
+  }
+  try {
+    const { token, user } = await userServices.loginUserService(
+      email,
+      password,
+    );
+    res
+      .status(200)
+      .json({ message: `You have logged in to Esperanza`, token, user });
+  } catch (error: any) {
+    return res.status(500).json({ error: error.message });
+  }
+};
