@@ -5,10 +5,16 @@ import { useAuth } from "@/hooks/useAuth";
 import { Loader2, LogOut } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+interface FetchProfilePicture {
+  id: string;
+  profiprofilePicture: string;
+}
 
 const Navbar = () => {
-  const { user, logout, hydrate } = useAuth();
+  const { token, logout, hydrate } = useAuth();
+  const [pfp, setPfp] = useState<FetchProfilePicture | null>(null);
 
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -26,6 +32,16 @@ const Navbar = () => {
 
     router.replace("/authentication");
   };
+
+  useEffect(() => {
+    const handleFetchProfilePicture = async () => {}; // TODO: Implement functionaltiy
+  }, [token]);
+
+  useEffect(() => {
+    if (!token) {
+      router.replace("/authentication");
+    }
+  }, []);
 
   return (
     <div className="flex justify-between items-center lg:px-10 lg:py-6 bg-white text-black z-50">
