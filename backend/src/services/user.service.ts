@@ -48,3 +48,18 @@ export const loginUserService = async (email: string, password: string) => {
 
   return { token, user };
 };
+
+export const fetchUserProfile = async (userId: string) => {
+  return await prisma.users.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      profilePicture: true,
+      createdAt: true,
+    },
+  });
+};
