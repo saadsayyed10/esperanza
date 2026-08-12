@@ -20,7 +20,7 @@ const Authentication = () => {
   const [signUpPassword, setSignUpPassword] = useState<string>("");
   const [signUpConfirmPassword, setSignUpConfirmPassword] =
     useState<string>("");
-  const { setAuth } = useAuth();
+  const { setAuth, hydrate } = useAuth();
 
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -57,6 +57,8 @@ const Authentication = () => {
 
         setLoginEmail("");
         setLoginPassword("");
+
+        hydrate();
 
         router.push("/dashboard");
       });
@@ -113,6 +115,8 @@ const Authentication = () => {
           setLoginEmail("");
           setLoginPassword("");
 
+          hydrate();
+
           router.push("/dashboard");
         },
       );
@@ -164,7 +168,12 @@ const Authentication = () => {
                   />
                 </div>
 
-                <Button disabled={loading} size="lg" className="w-full mt-4">
+                <Button
+                  disabled={loading}
+                  size="lg"
+                  className="w-full mt-4"
+                  onClick={handleLogin}
+                >
                   {loading ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
                   ) : (
@@ -177,12 +186,7 @@ const Authentication = () => {
 
           <Dialog>
             <DialogTrigger className="w-full">
-              <Button
-                size="lg"
-                className="w-full"
-                variant="secondary"
-                onClick={handleLogin}
-              >
+              <Button size="lg" className="w-full" variant="secondary">
                 Sign Up
               </Button>
             </DialogTrigger>
@@ -229,10 +233,10 @@ const Authentication = () => {
                 </div>
 
                 <Button
+                  disabled={loading}
                   size="lg"
                   className="w-full mt-4"
                   onClick={handleSignUp}
-                  disabled={loading}
                 >
                   {loading ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
