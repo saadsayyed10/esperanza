@@ -60,16 +60,18 @@ const Navbar = () => {
 
   return (
     <div className="flex justify-between items-center lg:px-10 lg:py-6 bg-white text-black z-50">
-      <h1 className="text-2xl font-bold">Esparanza</h1>
+      <h1 className="text-2xl font-bold">Esperanza</h1>
       <div className="flex justify-end items-end w-full lg:gap-x-4">
         {pfp ? (
           loadingData ? (
             <div className="w-10 h-10 rounded-[100%] bg-neutral-700/40 hover:bg-neutral-800/40 animate-pulse cursor-pointer" />
           ) : (
-            <Image
+            <img
               src={pfp}
               alt="User Pfp"
-              className="w-10 h-10 rounded-[100%] bg-neutral-700 hover:bg-neutral-800 cursor-pointer"
+              width={40}
+              height={40}
+              className="rounded-[100%] cursor-pointer w-10 h-10 border border-black"
             />
           )
         ) : (

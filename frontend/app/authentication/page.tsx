@@ -139,10 +139,11 @@ const Authentication = () => {
         </CardHeader>
         <CardContent className="flex justify-center items-center w-full flex-col gap-y-4 lg:mt-6">
           <Dialog>
-            <DialogTrigger className="w-full">
-              <Button size="lg" className="w-full">
-                Sign In
-              </Button>
+            <DialogTrigger
+              className="w-full"
+              render={<Button size="lg" className="w-full" />}
+            >
+              Sign In
             </DialogTrigger>
             <DialogContent>
               <h5 className="text-xl font-semibold text-center mb-4">
@@ -185,10 +186,13 @@ const Authentication = () => {
           </Dialog>
 
           <Dialog>
-            <DialogTrigger className="w-full">
-              <Button size="lg" className="w-full" variant="secondary">
-                Sign Up
-              </Button>
+            <DialogTrigger
+              className="w-full"
+              render={
+                <Button size="lg" className="w-full" variant="secondary" />
+              }
+            >
+              Sign Up
             </DialogTrigger>
             <DialogContent>
               <h5 className="text-xl font-semibold text-center mb-4">
