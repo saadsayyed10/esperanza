@@ -6,6 +6,8 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "@/hooks/useAuth";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -18,15 +20,46 @@ const Authentication = () => {
   const [signUpPassword, setSignUpPassword] = useState<string>("");
   const [signUpConfirmPassword, setSignUpConfirmPassword] =
     useState<string>("");
+  const { setAuth } = useAuth();
 
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const handleLogin = async () => {
-    // TODO: Implement functionality
+    if (!loginEmail.includes("@")) {
+      console.log("Invalid email");
+      return;
+    }
+
+    if (!loginEmail) {
+      console.log("Please type your email");
+      return;
+    }
+
+    if (loginPassword.length < 8) {
+      console.log("Invalid password");
+      return;
+    }
+
+    if (!loginPassword) {
+      console.log("Please type your password");
+      return;
+    }
+
     setLoading(true);
     try {
-      const res = await loginUserAPI(loginEmail, loginPassword);
+      await loginUserAPI(loginEmail, loginPassword).then((res) => {
+        const token = res.data.token;
+        const user = res.data.user;
+
+        setAuth(token!, user);
+        console.log(res.data.message);
+
+        setLoginEmail("");
+        setLoginPassword("");
+
+        router.push("/dashboard");
+      });
     } catch (error: any) {
       console.error(error);
     } finally {
@@ -35,15 +68,54 @@ const Authentication = () => {
   };
 
   const handleSignUp = async () => {
-    // TODO: Implement functionality
+    if (!signUpName) {
+      console.log("Please type your full name");
+      return;
+    }
+
+    if (!signUpEmail.includes("@")) {
+      console.log("Invalid email");
+      return;
+    }
+
+    if (!signUpEmail) {
+      console.log("Please type your email");
+      return;
+    }
+
+    if (signUpPassword.length < 8) {
+      console.log(
+        "Invalid password, password must contain atleast contain 8 characters",
+      );
+      return;
+    }
+
+    if (!signUpPassword) {
+      console.log("Please type your password");
+      return;
+    }
+
     if (signUpPassword != signUpConfirmPassword) {
-      console.error("Password is incorrect");
+      console.log("Provided password and confirm password does not match");
       return;
     }
 
     setLoading(true);
     try {
-      const res = await signUpUserAPI(signUpName, signUpEmail, signUpPassword);
+      await signUpUserAPI(signUpName, signUpEmail, signUpPassword).then(
+        (res) => {
+          const token = res.data.token;
+          const user = res.data.user;
+
+          setAuth(token!, user);
+          console.log(res.data.message);
+
+          setLoginEmail("");
+          setLoginPassword("");
+
+          router.push("/dashboard");
+        },
+      );
     } catch (error: any) {
       console.error(error);
     } finally {
@@ -92,8 +164,12 @@ const Authentication = () => {
                   />
                 </div>
 
-                <Button size="lg" className="w-full mt-4">
-                  Sign In
+                <Button disabled={loading} size="lg" className="w-full mt-4">
+                  {loading ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    "Sign In"
+                  )}
                 </Button>
               </div>
             </DialogContent>
@@ -156,8 +232,13 @@ const Authentication = () => {
                   size="lg"
                   className="w-full mt-4"
                   onClick={handleSignUp}
+                  disabled={loading}
                 >
-                  Sign Up
+                  {loading ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    "Sign Up"
+                  )}
                 </Button>
               </div>
             </DialogContent>
