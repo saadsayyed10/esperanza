@@ -63,3 +63,15 @@ export const fetchUserProfileService = async (userId: string) => {
     },
   });
 };
+
+export const fetchUserProfilePictureService = async (userId: string) => {
+  return await prisma.users.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      id: true,
+      profilePicture: true,
+    },
+  });
+};

@@ -12,5 +12,10 @@ userRouter.get(
   protectRoute,
   controllers.fetchUserProfileController,
 );
+userRouter.get(
+  "/profile/picture",
+  protectRoute,
+  controllers.fetchUserProfilePictureController,
+);
 
 export default userRouter;

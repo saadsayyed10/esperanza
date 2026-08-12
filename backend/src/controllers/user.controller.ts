@@ -60,3 +60,22 @@ export const fetchUserProfileController = async (
     return res.status(500).json({ error: error.message });
   }
 };
+
+export const fetchUserProfilePictureController = async (
+  req: Request,
+  res: Response,
+) => {
+  try {
+    const userId = (req as any).user.id;
+    if (!userId) {
+      return res.status(401).json({
+        error: "Unauthorized: User ID not found while fetching profile picture",
+      });
+    }
+
+    const pfp = await userServices.fetchUserProfilePictureService(userId);
+    res.status(200).json({ pfp });
+  } catch (error: any) {
+    return res.status(500).json({ error: error.message });
+  }
+};
