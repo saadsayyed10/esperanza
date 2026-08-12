@@ -49,7 +49,7 @@ export const loginUserService = async (email: string, password: string) => {
   return { token, user };
 };
 
-export const fetchUserProfile = async (userId: string) => {
+export const fetchUserProfileService = async (userId: string) => {
   return await prisma.users.findUnique({
     where: {
       id: userId,
