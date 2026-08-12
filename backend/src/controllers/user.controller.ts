@@ -47,13 +47,11 @@ export const fetchUserProfileController = async (
   res: Response,
 ) => {
   try {
-    const userId = (req as any).user;
+    const userId = (req as any).user.id;
     if (!userId) {
-      return res
-        .status(401)
-        .json({
-          error: "Unauthorized: User ID not found while fetching profile",
-        });
+      return res.status(401).json({
+        error: "Unauthorized: User ID not found while fetching profile",
+      });
     }
 
     const user = await userServices.fetchUserProfileService(userId);
