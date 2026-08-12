@@ -1,5 +1,6 @@
 "use client";
 
+import { loginUserAPI, signUpUserAPI } from "@/_api/user.api";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
@@ -15,9 +16,40 @@ const Authentication = () => {
   const [signUpName, setSignUpName] = useState<string>("");
   const [signUpEmail, setSignUpEmail] = useState<string>("");
   const [signUpPassword, setSignUpPassword] = useState<string>("");
+  const [signUpConfirmPassword, setSignUpConfirmPassword] =
+    useState<string>("");
 
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
+
+  const handleLogin = async () => {
+    // TODO: Implement functionality
+    setLoading(true);
+    try {
+      const res = await loginUserAPI(loginEmail, loginPassword);
+    } catch (error: any) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSignUp = async () => {
+    // TODO: Implement functionality
+    if (signUpPassword != signUpConfirmPassword) {
+      console.error("Password is incorrect");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await signUpUserAPI(signUpName, signUpEmail, signUpPassword);
+    } catch (error: any) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="flex justify-center items-center w-full min-h-screen">
@@ -43,13 +75,20 @@ const Authentication = () => {
               <div className="flex justify-start items-start flex-col w-full gap-y-6">
                 <div className="flex justify-start items-start flex-col w-full gap-y-2">
                   <Label>Email</Label>
-                  <Input className="w-full" placeholder="esperanza@grove.com" />
+                  <Input
+                    className="w-full"
+                    placeholder="esperanza@grove.com"
+                    value={loginEmail}
+                    onChange={(e) => setLoginEmail(e.target.value)}
+                  />
                 </div>
                 <div className="flex justify-start items-start flex-col w-full gap-y-2">
                   <Label>Password</Label>
                   <Input
                     className="w-full"
                     placeholder="********************"
+                    value={loginPassword}
+                    onChange={(e) => setLoginPassword(e.target.value)}
                   />
                 </div>
 
@@ -59,9 +98,15 @@ const Authentication = () => {
               </div>
             </DialogContent>
           </Dialog>
+
           <Dialog>
             <DialogTrigger className="w-full">
-              <Button size="lg" className="w-full" variant="secondary">
+              <Button
+                size="lg"
+                className="w-full"
+                variant="secondary"
+                onClick={handleLogin}
+              >
                 Sign Up
               </Button>
             </DialogTrigger>
@@ -72,17 +117,29 @@ const Authentication = () => {
               <div className="flex justify-start items-start flex-col w-full gap-y-6">
                 <div className="flex justify-start items-start flex-col w-full gap-y-2">
                   <Label>Name</Label>
-                  <Input className="w-full" placeholder="Anton Castilo" />
+                  <Input
+                    className="w-full"
+                    placeholder="Anton Castilo"
+                    value={signUpName}
+                    onChange={(e) => setSignUpName(e.target.value)}
+                  />
                 </div>
                 <div className="flex justify-start items-start flex-col w-full gap-y-2">
                   <Label>Email</Label>
-                  <Input className="w-full" placeholder="esperanza@grove.com" />
+                  <Input
+                    className="w-full"
+                    placeholder="esperanza@grove.com"
+                    value={signUpEmail}
+                    onChange={(e) => setSignUpEmail(e.target.value)}
+                  />
                 </div>
                 <div className="flex justify-start items-start flex-col w-full gap-y-2">
                   <Label>Password</Label>
                   <Input
                     className="w-full"
                     placeholder="********************"
+                    value={signUpPassword}
+                    onChange={(e) => setSignUpPassword(e.target.value)}
                   />
                 </div>
                 <div className="flex justify-start items-start flex-col w-full gap-y-2">
@@ -90,10 +147,16 @@ const Authentication = () => {
                   <Input
                     className="w-full"
                     placeholder="********************"
+                    value={signUpConfirmPassword}
+                    onChange={(e) => setSignUpConfirmPassword(e.target.value)}
                   />
                 </div>
 
-                <Button size="lg" className="w-full mt-4">
+                <Button
+                  size="lg"
+                  className="w-full mt-4"
+                  onClick={handleSignUp}
+                >
                   Sign Up
                 </Button>
               </div>

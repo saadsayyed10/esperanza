@@ -1,11 +1,11 @@
 import axios from "axios";
 import { apiUrl } from "./apiUrl";
 
-export const loginUser = async (email: string, password: string) => {
+export const loginUserAPI = async (email: string, password: string) => {
   return await axios.post(`${apiUrl}/user/login`, { email, password });
 };
 
-export const signUpUser = async (
+export const signUpUserAPI = async (
   name: string,
   email: string,
   password: string,
