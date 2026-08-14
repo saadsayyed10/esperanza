@@ -20,7 +20,7 @@ const Authentication = () => {
   const [signUpPassword, setSignUpPassword] = useState<string>("");
   const [signUpConfirmPassword, setSignUpConfirmPassword] =
     useState<string>("");
-  const { setAuth, hydrate } = useAuth();
+  const { setAuth } = useAuth();
 
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -57,8 +57,6 @@ const Authentication = () => {
 
         setLoginEmail("");
         setLoginPassword("");
-
-        hydrate();
 
         router.push("/dashboard");
       });
@@ -115,8 +113,6 @@ const Authentication = () => {
           setLoginEmail("");
           setLoginPassword("");
 
-          hydrate();
-
           router.push("/dashboard");
         },
       );
@@ -155,6 +151,7 @@ const Authentication = () => {
                   <Input
                     className="w-full"
                     placeholder="esperanza@grove.com"
+                    type="email"
                     value={loginEmail}
                     onChange={(e) => setLoginEmail(e.target.value)}
                   />
@@ -164,6 +161,7 @@ const Authentication = () => {
                   <Input
                     className="w-full"
                     placeholder="********************"
+                    type="password"
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
                   />
@@ -213,6 +211,7 @@ const Authentication = () => {
                   <Input
                     className="w-full"
                     placeholder="esperanza@grove.com"
+                    type="email"
                     value={signUpEmail}
                     onChange={(e) => setSignUpEmail(e.target.value)}
                   />

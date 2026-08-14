@@ -1,7 +1,16 @@
+"use client";
+
 import Navbar from "@/_components/Navbar";
-import { ReactNode } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { ReactNode, useEffect } from "react";
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
+  const { hydrate } = useAuth();
+
+  useEffect(() => {
+    hydrate();
+  }, [hydrate]);
+
   return (
     <main>
       <header>
