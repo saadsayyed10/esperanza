@@ -4,8 +4,9 @@ import { fetchUserProfilePictureAPI } from "@/_api/user.api";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { Bell, Loader2, LogOut } from "lucide-react";
+import Link from "next/link";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Navbar = () => {
@@ -15,6 +16,7 @@ const Navbar = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingData, setLoadingData] = useState<boolean>(false);
   const router = useRouter();
+  const pathName = usePathname();
 
   const handleLogout = () => {
     setLoading(true);
@@ -56,7 +58,31 @@ const Navbar = () => {
 
   return (
     <div className="flex justify-between items-center lg:px-10 lg:py-6 bg-white text-black z-50">
-      <h1 className="text-2xl font-bold">Esperanza</h1>
+      <div className="flex justify-start items-center w-full lg:gap-x-20">
+        <h1 className="text-2xl font-bold">Esperanza</h1>
+        <ul className="flex justify-start items-start w-full lg:gap-x-6 text-neutral-600 font-medium text-sm">
+          <li
+            className={`${pathName === "/dashboard" ? "text-neutral-800 underline-offset-4 underline" : ""}`}
+          >
+            <Link href={"/dashboard"}>Dashboard</Link>
+          </li>
+          <li
+            className={`${pathName === "/dashboard/analyses" ? "text-neutral-800 underline-offset-4 underline" : ""}`}
+          >
+            <Link href={"/dashboard/analyses"}>Analyses</Link>
+          </li>
+          <li
+            className={`${pathName === "/dashboard/uploads" ? "text-neutral-800 underline-offset-4 underline" : ""}`}
+          >
+            <Link href={"/dashboard/uploads"}>Uploads</Link>
+          </li>
+          <li
+            className={`${pathName === "/dashboard/profile" ? "text-neutral-800 underline-offset-4 underline" : ""}`}
+          >
+            <Link href={"/dashboard/profile"}>Settings</Link>
+          </li>
+        </ul>
+      </div>
       <div className="flex justify-end items-end w-full lg:gap-x-4">
         <Button variant="ghost">
           {loading ? (
