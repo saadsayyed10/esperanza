@@ -1,9 +1,8 @@
 from dotenv import load_dotenv
 load_dotenv()
 
-from langchain_openai import OpenAIEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
-embeddingModel = OpenAIEmbeddings(
-    model="gemini-embedding-001",
-    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+embeddingModel = GoogleGenerativeAIEmbeddings(
+    model="models/gemini-embedding-001"
 )

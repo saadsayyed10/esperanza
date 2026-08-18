@@ -29,8 +29,8 @@ async def readResume(data: ReadResumeType):
     resumeChunks = "\n\n".join([doc.page_content for doc in docs])
 
     result = chain.invoke({
-        "resumeChunks": resumeChunks,
-        "jobDescription": data.jobDescription
+        "resume_chunks": resumeChunks,
+        "job_description": data.jobDescription
     })
 
     return {
