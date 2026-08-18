@@ -1,6 +1,13 @@
-def main():
-    print("Hello from agent!")
+from fastapi import FastAPI
+from models.llm import llmModel 
 
+app = FastAPI()
 
-if __name__ == "__main__":
-    main()
+@app.get("/api/health")
+async def checkHealth():
+    return {"status": 200}
+
+@app.get("/api/health/model")
+async def checkModelHealth():
+    response = llmModel.invoke("Hello, your API is healthy and working well? Reply in one sentence only.")
+    return {"status": response.content}
