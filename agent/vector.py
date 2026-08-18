@@ -15,7 +15,7 @@ def createRetriever(pdfPath: str):
     # Configure chunking of pdf document
     textSplitter = RecursiveCharacterTextSplitter(
         chunk_size=800,
-        chunk_overlap=1000
+        chunk_overlap=100
     )
 
     chunks = textSplitter.split_documents(documents)
