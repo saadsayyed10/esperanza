@@ -1,6 +1,5 @@
-import axios from "axios";
 import prisma from "../lib/prisma";
-import { env } from "../config/env.config";
+import { scanResumeAPI } from "../lib/agent";
 
 export const scanResumeService = async (
   userId: string,
@@ -18,6 +17,14 @@ export const scanResumeService = async (
 
   const pdfPath = resumeUrl;
   let response;
+
+  try {
+    const data = await scanResumeAPI(pdfPath, jobDescription);
+    response = data.data.response;
+  } catch (error: any) {
+    response = "Failed to parse your resume";
+    console.log(error.message);
+  }
 
   return await prisma.scans.create({
     data: {
