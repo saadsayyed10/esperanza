@@ -14,4 +14,18 @@ model users {
   password       String
   profilePicture String
   createdAt      DateTime @default(now())
+
+  scan scans[]
+}
+
+model scans {
+  id             String   @id @default(uuid())
+  resumeUrl      String   @unique
+  resumePath     String   @unique
+  jobDescription String
+  response       String
+  createdAt      DateTime @default(now())
+
+  userId String?
+  users  users?  @relation(fields: [userId], references: [id])
 }
