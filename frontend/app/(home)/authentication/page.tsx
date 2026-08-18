@@ -20,7 +20,7 @@ const Authentication = () => {
   const [signUpPassword, setSignUpPassword] = useState<string>("");
   const [signUpConfirmPassword, setSignUpConfirmPassword] =
     useState<string>("");
-  const { setAuth, hydrate } = useAuth();
+  const { setAuth } = useAuth();
 
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -57,8 +57,6 @@ const Authentication = () => {
 
         setLoginEmail("");
         setLoginPassword("");
-
-        hydrate();
 
         router.push("/dashboard");
       });
@@ -115,8 +113,6 @@ const Authentication = () => {
           setLoginEmail("");
           setLoginPassword("");
 
-          hydrate();
-
           router.push("/dashboard");
         },
       );
@@ -139,10 +135,11 @@ const Authentication = () => {
         </CardHeader>
         <CardContent className="flex justify-center items-center w-full flex-col gap-y-4 lg:mt-6">
           <Dialog>
-            <DialogTrigger className="w-full">
-              <Button size="lg" className="w-full">
-                Sign In
-              </Button>
+            <DialogTrigger
+              className="w-full"
+              render={<Button size="lg" className="w-full" />}
+            >
+              Sign In
             </DialogTrigger>
             <DialogContent>
               <h5 className="text-xl font-semibold text-center mb-4">
@@ -154,6 +151,7 @@ const Authentication = () => {
                   <Input
                     className="w-full"
                     placeholder="esperanza@grove.com"
+                    type="email"
                     value={loginEmail}
                     onChange={(e) => setLoginEmail(e.target.value)}
                   />
@@ -163,6 +161,7 @@ const Authentication = () => {
                   <Input
                     className="w-full"
                     placeholder="********************"
+                    type="password"
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
                   />
@@ -185,10 +184,13 @@ const Authentication = () => {
           </Dialog>
 
           <Dialog>
-            <DialogTrigger className="w-full">
-              <Button size="lg" className="w-full" variant="secondary">
-                Sign Up
-              </Button>
+            <DialogTrigger
+              className="w-full"
+              render={
+                <Button size="lg" className="w-full" variant="secondary" />
+              }
+            >
+              Sign Up
             </DialogTrigger>
             <DialogContent>
               <h5 className="text-xl font-semibold text-center mb-4">
@@ -209,6 +211,7 @@ const Authentication = () => {
                   <Input
                     className="w-full"
                     placeholder="esperanza@grove.com"
+                    type="email"
                     value={signUpEmail}
                     onChange={(e) => setSignUpEmail(e.target.value)}
                   />
