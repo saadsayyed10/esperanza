@@ -1,7 +1,9 @@
 "use client";
 
+import { scanResumeAPI } from "@/_api/scan.api";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useAuth } from "@/hooks/useAuth";
 import { handleFileUpload } from "@/utils/handleFileUpload";
 import {
   CloudUpload,
@@ -17,17 +19,40 @@ const Dashboard = () => {
   const [jobDescription, setJobDescription] = useState<string>("");
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [fileUploaded, setFileUpload] = useState<boolean>(false);
 
-  const handleUploadResume = async () => {
-    setLoading(true);
-    try {
-      const { publicUrl: fileUrl, filePath } = await handleFileUpload(
-        resume!,
-        "resume",
+  const { token } = useAuth();
+
+  const handleScanResume = async () => {
+    if (!resume) {
+      console.log("Please upload your resume");
+      return;
+    }
+
+    if (!jobDescription) {
+      console.log(
+        "Please paste job description to evaluate against the resume",
       );
+      return;
+    }
 
-      console.log(fileUrl, filePath);
+    setLoading(true);
+
+    try {
+      const { publicUrl: resumeUrl, filePath: resumePath } =
+        await handleFileUpload(resume!, "resume");
+
+      console.log(resumeUrl, resumePath);
+
+      await scanResumeAPI(resumeUrl, resumePath, jobDescription.trim(), token!)
+        .then((res) => {
+          console.log(res.data.message);
+
+          setResume(null);
+          setJobDescription("");
+        })
+        .catch((err) => {
+          console.log(err.response.data.error);
+        });
     } catch (error: any) {
       console.log(error.message);
     } finally {
@@ -136,6 +161,8 @@ const Dashboard = () => {
               <textarea
                 className="w-full h-50 lg:placeholder:text-xs placeholder:font-medium"
                 placeholder="Paste and complete the job description here..."
+                value={jobDescription}
+                onChange={(e) => setJobDescription(e.target.value)}
               />
             </div>
           </CardContent>
@@ -150,7 +177,7 @@ const Dashboard = () => {
           </h6>
         </div>
 
-        <Button onClick={handleUploadResume} size={"lg"}>
+        <Button onClick={handleScanResume} size={"lg"}>
           {loading ? <Loader2 className="animate-spin" /> : "Analyse Resume"}
         </Button>
       </div>
