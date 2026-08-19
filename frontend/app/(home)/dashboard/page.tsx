@@ -14,6 +14,7 @@ import { useState } from "react";
 
 const Dashboard = () => {
   const [resume, setResume] = useState<File | null>(null);
+  const [jobDescription, setJobDescription] = useState<string>("");
 
   const [loading, setLoading] = useState<boolean>(false);
   const [fileUploaded, setFileUpload] = useState<boolean>(false);
@@ -46,7 +47,7 @@ const Dashboard = () => {
         </h5>
       </div>
       <div className="flex justify-center items-center w-full lg:gap-x-10">
-        <Card className="w-[50%] lg:h-100 shadow-md">
+        <Card className="w-[50%] lg:h-100 lg:max-h-100 shadow-md">
           <CardHeader className="flex justify-start items-start w-full flex-col lg:gap-y-2">
             <div className="flex justify-between items-center w-full">
               <h4 className="text-xl font-semibold text-neutral-800 flex items-center gap-x-3">
@@ -118,7 +119,7 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
-        <Card className="w-[50%] lg:h-100 shadow-md">
+        <Card className="w-[50%] lg:h-100 lg:max-h-100 shadow-md">
           <CardHeader className="flex justify-start items-start w-full flex-col lg:gap-y-2">
             <div className="flex justify-between items-center w-full">
               <h4 className="text-xl font-semibold text-neutral-800 flex items-center gap-x-3">
