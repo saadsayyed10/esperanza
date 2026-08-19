@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from langchain_core.prompts import ChatPromptTemplate
+from pathlib import Path
+import shutil
 
 from models.llm import llmModel 
 from templates.resume_template import template
@@ -22,17 +24,23 @@ async def checkModelHealth():
 
 @app.post("/api/resume")
 async def readResume(data: ReadResumeType):
-    retriever = createRetriever(data.pdfPath)
-
-    docs = retriever.invoke(data.jobDescription)
-
-    resumeChunks = "\n\n".join([doc.page_content for doc in docs])
-
-    result = chain.invoke({
-        "resume_chunks": resumeChunks,
-        "job_description": data.jobDescription
-    })
-
-    return {
-        "response": result.content
-    }
+    chromaPath = Path("./chroma_db")
+    
+    try:
+        retriever = createRetriever(data.pdfPath)
+        
+        docs = retriever.invoke(data.jobDescription)
+        
+        resumeChunks = "\n\n".join([doc.page_content for doc in docs])
+        
+        result = chain.invoke({
+            "resume_chunks": resumeChunks,
+            "job_description": data.jobDescription
+        })
+        
+        return {
+            "response": result.content
+        }
+    finally:
+        if chromaPath.exists():
+            shutil.rmtree(chromaPath)
