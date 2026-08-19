@@ -6,4 +6,6 @@ const scanRouter = Router();
 
 scanRouter.post("/resume", protectRoute, controllers.scanResumeController);
 
+scanRouter.get("/all", protectRoute, controllers.fetchAllScansController);
+
 export default scanRouter;
