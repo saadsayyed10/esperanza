@@ -6,4 +6,5 @@ export const env = {
   PFP_API:
     process.env.PFP_API! ||
     "https://api.dicebear.com/10.x/notionists/svg?seed=",
+  AGENT_API: process.env.AGENT_API! || "http://localhost:8000/api",
 };
