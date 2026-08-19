@@ -36,3 +36,11 @@ export const scanResumeService = async (
     },
   });
 };
+
+export const fetchAllScansService = async (userId: string) => {
+  return await prisma.scans.findMany({
+    where: {
+      userId,
+    },
+  });
+};
