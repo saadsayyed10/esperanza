@@ -15,6 +15,17 @@ export const scanResumeService = async (
   if (existingResume)
     throw new Error("Resume already exists, please delete from your profile.");
 
+  const limit = await prisma.scans.findMany({
+    where: {
+      userId,
+    },
+  });
+  if (limit.length > 3) {
+    throw new Error(
+      "Your limit has exceeded. Please delete previous 1 or more scans to continue",
+    );
+  }
+
   const pdfPath = resumeUrl;
   let response;
 
